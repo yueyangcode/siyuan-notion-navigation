@@ -7,18 +7,8 @@ const findCSS = /* FIND_CSS */ '';
 module.exports = class NotionNavigation extends Plugin {
   async onload() {
     this.alive = true;
-    this.states = new Map();
     this.styles = new Map();
     this.preferences = { navigation: true, tree: true, search: true };
-    this.navigationEnabled = false;
-    this.events = ['loaded-protyle-static', 'loaded-protyle-dynamic', 'switch-protyle'];
-    this.onEditor = event => this.attach(event.detail.protyle);
-    this.onDestroy = event => {
-      for (const state of this.states.values()) {
-        if (state.protyle === event.detail.protyle) this.dispose(state);
-      }
-      queueMicrotask(() => { if (this.alive && this.navigationEnabled) this.syncTabHistory(); });
-    };
     try {
       const saved = await this.loadData('settings.json');
       for (const key of Object.keys(this.preferences)) {
@@ -43,14 +33,6 @@ module.exports = class NotionNavigation extends Plugin {
         this.styles.get(key)?.remove();
         this.styles.delete(key);
       }
-    }
-    if (this.preferences.navigation && !this.navigationEnabled) {
-      this.navigationEnabled = true;
-      for (const event of this.events) this.eventBus.on(event, this.onEditor);
-      this.eventBus.on('destroy-protyle', this.onDestroy);
-      this.onLayoutReady();
-    } else if (!this.preferences.navigation) {
-      this.stopNavigation();
     }
     if (this.preferences.search) this.startSearch();
     else this.stopSearch();
@@ -321,16 +303,6 @@ module.exports = class NotionNavigation extends Plugin {
     if (state.root.isConnected && state.root.dataset.key === 'dialog-search') state.root.querySelector('#searchRefresh')?.click();
   }
 
-  stopNavigation() {
-    this.disposeTabHistory();
-    if (this.navigationEnabled) {
-      for (const event of this.events) this.eventBus.off(event, this.onEditor);
-      this.eventBus.off('destroy-protyle', this.onDestroy);
-      this.navigationEnabled = false;
-    }
-    for (const state of this.states.values()) this.dispose(state);
-  }
-
   async updatePreference(key, value) {
     if (!Object.hasOwn(this.preferences, key) || typeof value !== 'boolean') throw new Error('Invalid preference');
     const next = { ...this.preferences, [key]: value };
@@ -362,7 +334,7 @@ module.exports = class NotionNavigation extends Plugin {
     </style>
     <h2>让常用界面更简洁</h2>
     <p>按区域独立开启。关闭某项后，会恢复当前主题和代码片段提供的外观。</p>
-    <label><span><strong>导航栏与路径</strong><small>平直标签页，逐级点击父页面。</small></span><input type="checkbox" role="switch" data-option="navigation" aria-label="导航栏与路径"></label>
+    <label><span><strong>导航栏与路径</strong><small>简洁标签页；保留原生历史按钮、文档路径和块级面包屑。</small></span><input type="checkbox" role="switch" data-option="navigation" aria-label="导航栏与路径"></label>
     <label><span><strong>左侧文档树</strong><small>柔和的选中底色，清楚的层级，悬停时显示操作按钮。</small></span><input type="checkbox" role="switch" data-option="tree" aria-label="左侧文档树"></label>
     <label><span><strong>搜索与页内查找</strong><small>全局搜索使用页面列表与卡片预览，页内查找使用右上角小浮层。</small></span><input type="checkbox" role="switch" data-option="search" aria-label="搜索与页内查找"></label>
     <footer>更改自动保存并立即生效。Ctrl+P 全局搜索；Ctrl+F 页内查找。</footer><div role="status" aria-live="polite"></div>`;
@@ -391,108 +363,6 @@ module.exports = class NotionNavigation extends Plugin {
     if (dialog) { dialog.classList.add('ni-settings-dialog'); dialog.style.maxWidth = 'calc(100vw - 32px)'; dialog.style.maxHeight = 'calc(100vh - 48px)'; }
   }
 
-  onLayoutReady() {
-    if (this.alive && this.navigationEnabled) {
-      this.syncTabHistory();
-      for (const editor of getAllEditor()) this.attach(editor.protyle);
-    }
-  }
-
-  syncTabHistory() {
-    const tabs = document.querySelector('.layout__center .layout-tab-bar:not(.layout-tab-bar--readonly)');
-    if (this.tabHistory?.tabs === tabs) return;
-    this.disposeTabHistory();
-    const back = document.querySelector('#barBack');
-    const forward = document.querySelector('#barForward');
-    if (!tabs || !back || !forward) return;
-    const nav = document.createElement('nav');
-    nav.className = 'nn-history';
-    nav.setAttribute('aria-label', '浏览历史');
-    const pairs = [back, forward].map(source => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.setAttribute('aria-label', source.getAttribute('aria-label'));
-      button.title = source.getAttribute('aria-label');
-      button.innerHTML = source.querySelector('svg')?.outerHTML || '';
-      const click = () => { if (!button.disabled) source.click(); };
-      button.addEventListener('click', click);
-      source.setAttribute('data-nn-history-original', '');
-      nav.appendChild(button);
-      return { source, button, click };
-    });
-    const sync = () => pairs.forEach(({ source, button }) => {
-      button.disabled = source.disabled || source.classList.contains('toolbar__item--disabled') || source.getAttribute('aria-disabled') === 'true';
-    });
-    const observer = new MutationObserver(sync);
-    for (const { source } of pairs) observer.observe(source, { attributes: true, attributeFilter: ['class', 'disabled', 'aria-disabled'] });
-    tabs.before(nav);
-    sync();
-    this.tabHistory = { tabs, nav, pairs, observer };
-  }
-
-  disposeTabHistory() {
-    if (!this.tabHistory) return;
-    const { nav, pairs, observer } = this.tabHistory;
-    observer.disconnect();
-    for (const { source, button, click } of pairs) {
-      source.removeAttribute('data-nn-history-original');
-      button.removeEventListener('click', click);
-    }
-    nav.remove();
-    this.tabHistory = null;
-  }
-
-  attach(protyle) {
-    if (!this.alive || !this.navigationEnabled) return;
-    this.syncTabHistory();
-    for (const state of this.states.values()) {
-      if (!state.bar.isConnected) this.dispose(state);
-    }
-    const bar = protyle?.element?.closest('.layout__center') &&
-      protyle.element.querySelector(':scope > .protyle-breadcrumb > .protyle-breadcrumb__bar');
-    if (!bar) return;
-    let state = this.states.get(bar);
-    if (!state) {
-      state = { bar, protyle, key: '', data: null, nav: null, original: null };
-      state.observer = new MutationObserver(() => this.update(state));
-      // Only native breadcrumb children, never the editor body or document subtree.
-      state.observer.observe(bar, { childList: true });
-      this.states.set(bar, state);
-    }
-    state.protyle = protyle;
-    if (state.failed) state.key = '';
-    this.update(state);
-  }
-
-  update(state) {
-    if (!this.alive || !state.bar.isConnected) return;
-    const original = state.bar.querySelector(':scope > .protyle-breadcrumb__item[data-node-id]');
-    const rootID = state.protyle.block?.rootID;
-    if (!original || original.dataset.nodeId !== rootID) return;
-    state.original = original;
-    const key = `${rootID}|${state.protyle.path}|${original.getAttribute('aria-label')}`;
-    if (key === state.key) {
-      if (state.data) this.render(state);
-      return;
-    }
-    state.request?.abort();
-    state.key = key;
-    state.data = null;
-    state.failed = false;
-    state.nav?.remove();
-    original.removeAttribute('data-nn-original');
-    const request = new AbortController();
-    state.request = request;
-    this.resolvePath(rootID, request.signal).then(data => {
-      if (!this.alive || request.signal.aborted || state.key !== key || !state.bar.isConnected) return;
-      state.data = data;
-      this.render(state);
-    }).catch(error => {
-      if (error.name !== 'AbortError' && state.key === key) state.failed = true;
-      // Keep the native document entry available when the workspace is unavailable.
-    });
-  }
-
   async api(path, data, signal) {
     const response = await fetch(`/api/${path}`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -504,79 +374,9 @@ module.exports = class NotionNavigation extends Plugin {
     return result.data;
   }
 
-  async resolvePath(rootID, signal) {
-    const info = await this.api('block/getBlockInfo', { id: rootID }, signal);
-    const ids = info.path.replace(/\.sy$/, '').split('/').filter(Boolean);
-    if (ids.at(-1) !== rootID || ids.some(id => !/^\d{14}-[a-z0-9]{7}$/.test(id))) {
-      throw new Error('Invalid document path');
-    }
-    const docs = await Promise.all(ids.map(async id => {
-      const doc = await this.api('block/getDocInfo', { id }, signal);
-      return { id, name: doc.name || '未命名' };
-    }));
-    const notebook = window.siyuan.notebooks.find(item => item.id === info.box);
-    return { notebook: notebook?.name || '笔记本', docs };
-  }
-
-  render(state) {
-    const original = state.original;
-    if (!original?.isConnected || original.parentElement !== state.bar) return;
-    if (!state.nav) {
-      state.nav = document.createElement('nav');
-      state.nav.className = 'nn-document-path';
-      state.nav.setAttribute('aria-label', '文档路径');
-      state.click = event => {
-        event.stopPropagation();
-        const button = event.target.closest('button[data-nn-id]');
-        if (!button) return;
-        event.preventDefault();
-        try {
-          Promise.resolve(openTab({ app: this.app, doc: { id: button.dataset.nnId } }))
-            .catch(() => showMessage('无法打开该页面，请确认文档仍然存在。', 4000, 'error'));
-        } catch {
-          showMessage('无法打开该页面，请确认文档仍然存在。', 4000, 'error');
-        }
-      };
-      state.nav.addEventListener('click', state.click);
-    }
-    if (state.renderedData !== state.data) {
-      const notebook = document.createElement('span');
-      notebook.className = 'nn-notebook';
-      notebook.textContent = state.data.notebook;
-      notebook.title = `${state.data.notebook}（笔记本）`;
-      state.nav.replaceChildren(notebook);
-      for (const doc of state.data.docs) {
-        const separator = document.createElement('span');
-        separator.className = 'nn-path-separator';
-        separator.textContent = '/';
-        separator.setAttribute('aria-hidden', 'true');
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.dataset.nnId = doc.id;
-        button.textContent = doc.name;
-        button.title = doc.name;
-        if (doc === state.data.docs.at(-1)) button.setAttribute('aria-current', 'page');
-        state.nav.append(separator, button);
-      }
-      state.renderedData = state.data;
-    }
-    original.setAttribute('data-nn-original', '');
-    if (state.nav.parentElement !== state.bar) state.bar.insertBefore(state.nav, original);
-  }
-
-  dispose(state) {
-    state.observer.disconnect();
-    state.request?.abort();
-    state.nav?.removeEventListener('click', state.click);
-    state.nav?.remove();
-    state.original?.removeAttribute('data-nn-original');
-    this.states.delete(state.bar);
-  }
-
   onunload() {
     this.alive = false;
     this.stopSearch();
-    this.stopNavigation();
     this.setting?.close();
     for (const style of this.styles.values()) style.remove();
     this.styles.clear();

@@ -107,13 +107,6 @@ body:not(.body--toolbar-hide) .layout__center .layout-tab-bar {
 .layout__center .layout-tab-bar > .item.item--pin { flex: 0 0 auto !important; width: auto !important; min-width: 38px; }
 .layout__center .layout-tab-bar:not(.layout-tab-bar--readonly) { flex: 0 1 auto !important; min-width: 0; overflow-x: auto !important; scrollbar-width: none; }
 .layout__center .layout-tab-bar--readonly { min-width: 64px; }
-[data-nn-history-original] { display: none !important; }
-.layout__center .nn-history { display: flex; align-items: center; flex: 0 0 76px; height: 38px; box-sizing: border-box; padding: 0 5px; border-right: 1px solid var(--nn-line); }
-.layout__center .nn-history button { display: flex; align-items: center; justify-content: center; width: 32px; height: 30px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: var(--nn-muted); cursor: pointer; }
-.layout__center .nn-history button:hover:not(:disabled) { background: var(--nn-hover); color: var(--nn-text); }
-.layout__center .nn-history button:disabled { opacity: .35; cursor: default; }
-.layout__center .nn-history svg { width: 14px; height: 14px; }
-.layout__center .nn-history button:focus-visible { outline: 2px solid var(--b3-theme-primary); outline-offset: -2px; }
 .layout__center .layout-tab-bar .item__close:hover {
   color: var(--nn-text) !important;
   background: var(--nn-line) !important;
@@ -136,153 +129,20 @@ body:not(.body--toolbar-hide) .layout__center .layout-tab-bar {
   color: var(--nn-text) !important;
   background: var(--nn-hover) !important;
 }
+/* Native breadcrumb nodes, icons, arrows and hit areas remain intact. */
 .layout__center .protyle > .protyle-breadcrumb {
-  box-sizing: border-box !important;
-  height: 44px !important;
-  min-height: 44px !important;
-  padding: 8px 16px !important;
-  gap: 0;
   background: var(--nn-active) !important;
-  border: 0 !important;
-  border-radius: 0 !important;
   box-shadow: none !important;
-  font-family: var(--b3-font-family) !important;
-  font-size: 14px !important;
+  border-radius: 0 !important;
   color: var(--nn-text) !important;
-}
-.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar {
-  min-width: 0;
-  flex-shrink: 1;
-  gap: 0;
 }
 .layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item {
-  min-width: 24px;
-  height: 28px !important;
-  padding: 0 5px !important;
   border-radius: 4px !important;
-  background: transparent !important;
-  color: var(--nn-text) !important;
-  font-weight: 400 !important;
 }
 .layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item:hover {
   background: var(--nn-hover) !important;
 }
-.layout__center .protyle > .protyle-breadcrumb [data-nn-original] {
-  display: none !important;
-}
-.layout__center .nn-document-path {
-  display: flex;
-  align-items: center;
-  min-width: 0;
-  max-width: 100%;
-  flex-shrink: 1;
-  gap: 0;
-  overflow-x: auto;
-  scrollbar-width: none;
-}
-.layout__center .nn-document-path > button,
-.layout__center .nn-document-path > .nn-notebook {
-  flex-shrink: 0;
-  max-width: 220px;
-  overflow: hidden;
-  text-overflow: ellipsis;
-  white-space: nowrap;
-  font: inherit;
-  line-height: 28px;
-  color: var(--nn-text);
-  background: transparent;
-  border: 0;
-  border-radius: 4px;
-  margin: 0;
-  padding: 0 2px;
-}
-.layout__center .nn-document-path > .nn-notebook {
-  color: var(--nn-text);
-}
-.layout__center .nn-document-path > button {
-  cursor: pointer;
-}
-.layout__center .nn-document-path > button:hover {
-  background: var(--nn-hover);
-}
-.layout__center .nn-document-path > button[aria-current="page"] {
-  font-weight: 500;
-}
-.layout__center .nn-document-path > .nn-path-separator {
-  flex-shrink: 0;
-  padding: 0 7px;
-  color: var(--nn-separator) !important;
-}
-/* Native document crumbs contain their full path in aria-label but usually show only an icon. */
-.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child:not(:has(.protyle-breadcrumb__text)) {
-  max-width: min(420px, 55vw) !important;
-  overflow: hidden;
-}
-.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child:not(:has(.protyle-breadcrumb__text))::after {
-  content: attr(aria-label);
-  white-space: nowrap;
-  text-overflow: ellipsis;
-  overflow: hidden;
-  line-height: 28px;
-}
-.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child::before {
-  display: none !important;
-}
-.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child > svg,
-.layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item:has(.protyle-breadcrumb__text) > svg {
-  display: none !important;
-}
-.layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__text {
-  font-size: 14px !important;
-  line-height: 28px !important;
-  margin: 0 !important;
-  color: inherit !important;
-}
-.layout__center .protyle > .protyle-breadcrumb button.protyle-breadcrumb__arrow {
-  position: relative;
-  flex-shrink: 0;
-  width: 18px !important;
-  height: 28px !important;
-  margin: 0 !important;
-  border-radius: 4px !important;
-  color: var(--nn-separator) !important;
-}
-.layout__center .protyle > .protyle-breadcrumb button.protyle-breadcrumb__arrow > svg {
-  visibility: hidden;
-}
-.layout__center .protyle > .protyle-breadcrumb button.protyle-breadcrumb__arrow::after {
-  content: "/";
-  position: absolute;
-  inset: 0;
-  line-height: 28px;
-  text-align: center;
-  pointer-events: none;
-}
-/* Show page paths by default; native block paths remain available on hover/focus. */
-.layout__center .protyle-breadcrumb__bar:has(> .nn-document-path):not(:hover):not(:focus-within) > .protyle-breadcrumb__item:not([data-nn-original]),
-.layout__center .protyle-breadcrumb__bar:has(> .nn-document-path):not(:hover):not(:focus-within) > .protyle-breadcrumb__arrow {
-  display: none !important;
-}
-.layout__center .protyle > .protyle-breadcrumb > .block__icon {
-  color: var(--nn-muted) !important;
-  border-radius: 4px !important;
-}
-.layout__center .protyle > .protyle-breadcrumb > .block__icon:hover {
-  color: var(--nn-text) !important;
-  background: var(--nn-hover) !important;
-}
-.layout__center .layout-tab-bar :focus-visible,
-.layout__center .protyle > .protyle-breadcrumb :focus-visible {
-  outline: 2px solid var(--b3-theme-primary) !important;
-  outline-offset: -2px;
-}
-@media (max-width: 700px) {
-  .layout__center .layout-tab-bar > .item:not(.item--readonly) {
-    padding-left: 10px !important;
-    padding-right: 8px !important;
-  }
-  .layout__center .protyle > .protyle-breadcrumb {
-    padding-left: 6px !important;
-    padding-right: 6px !important;
-  }
+body.body--toolbar-hide .layout__center .layout__wnd--center > .fn__flex > .layout-tab-bar {
+  height: 42px !important;
+  min-height: 42px !important;
 }

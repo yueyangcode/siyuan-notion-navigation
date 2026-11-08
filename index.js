@@ -1,5 +1,5 @@
 const { Plugin, Setting, getAllEditor, openTab, showMessage } = require('siyuan');
-const css = "/* Scoped to the central workspace: sidebars, popovers and note content stay native. */\nhtml[data-theme-mode=\"dark\"] .layout__center {\n  --nn-tab: #202020;\n  --nn-active: #191919;\n  --nn-line: #303030;\n  --nn-text: #ebebeb;\n  --nn-muted: #9b9b9b;\n  --nn-separator: #555555;\n  --nn-hover: #292929;\n}\nhtml[data-theme-mode=\"light\"] .layout__center {\n  --nn-tab: #f7f7f5;\n  --nn-active: #ffffff;\n  --nn-line: #e9e9e7;\n  --nn-text: #37352f;\n  --nn-muted: #787774;\n  --nn-separator: #c4c4c0;\n  --nn-hover: #efefed;\n}\n.layout__center [data-type=\"wnd\"] > .fn__flex:has(> .layout-tab-bar) {\n  min-width: 0;\n  background: var(--nn-tab) !important;\n  border-radius: 0 !important;\n  box-shadow: inset 0 -1px var(--nn-line) !important;\n}\n.layout__center,\n.layout__center > .fn__flex:has([data-type=\"wnd\"]) {\n  border-top-left-radius: 0 !important;\n  border-top-right-radius: 0 !important;\n}\n.layout__center .layout-tab-bar {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n  margin-left: 0 !important;\n  /* SiYuan sets inline margin-right to reserve toolbar/window controls in merged mode. */\n  margin-right: 0;\n  height: 38px !important;\n  min-height: 38px !important;\n  padding: 0 !important;\n  gap: 0 !important;\n  border-radius: 0 !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  border: 0 !important;\n}\nbody:not(.body--toolbar-hide) .layout__center .layout-tab-bar {\n  margin-right: 0 !important;\n}\n.layout__center .layout-tab-bar > .item:not(.item--readonly) {\n  box-sizing: border-box !important;\n  height: 38px !important;\n  min-height: 38px !important;\n  flex: 0 0 220px !important;\n  width: 220px !important;\n  max-width: 220px !important;\n  justify-content: flex-start !important;\n  margin: 0 !important;\n  padding: 0 12px 0 16px !important;\n  border: 0 !important;\n  border-right: 1px solid var(--nn-line) !important;\n  border-radius: 0 !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  color: var(--nn-text) !important;\n  transition: none !important;\n}\n.layout__center .layout-tab-bar > .item:not(.item--readonly)::before,\n.layout__center .layout-tab-bar > .item:not(.item--readonly)::after {\n  display: none !important;\n}\n.layout__center .layout-tab-bar > .item:not(.item--readonly):hover {\n  background: var(--nn-hover) !important;\n  color: var(--nn-text) !important;\n}\n.layout__center .layout-tab-bar > .item.item--focus {\n  background: var(--nn-active) !important;\n  color: var(--nn-text) !important;\n}\n.layout__center .layout-tab-bar .item__text {\n  padding: 0 !important;\n  margin: 0 !important;\n  flex: 1 1 auto !important;\n  min-width: 0;\n  text-align: left !important;\n  font-family: var(--b3-font-family) !important;\n  font-size: 14px !important;\n  line-height: 20px !important;\n  color: inherit !important;\n  font-weight: 400 !important;\n  text-shadow: none !important;\n  transition: none !important;\n}\n.layout__center .layout-tab-bar .item--focus .item__text {\n  font-weight: 600 !important;\n}\n.layout__center .layout-tab-bar .item__icon {\n  margin-right: 6px !important;\n}\n.layout__center .layout-tab-bar .item__close {\n  opacity: 0;\n  border-radius: 4px !important;\n  color: var(--nn-muted) !important;\n  background: transparent !important;\n}\n.layout__center .layout-tab-bar .item:hover .item__close,\n.layout__center .layout-tab-bar .item:focus-within .item__close { opacity: 1; }\n.layout__center .layout-tab-bar > .item.item--pin { flex: 0 0 auto !important; width: auto !important; min-width: 38px; }\n.layout__center .layout-tab-bar:not(.layout-tab-bar--readonly) { flex: 0 1 auto !important; min-width: 0; overflow-x: auto !important; scrollbar-width: none; }\n.layout__center .layout-tab-bar--readonly { min-width: 64px; }\n[data-nn-history-original] { display: none !important; }\n.layout__center .nn-history { display: flex; align-items: center; flex: 0 0 76px; height: 38px; box-sizing: border-box; padding: 0 5px; border-right: 1px solid var(--nn-line); }\n.layout__center .nn-history button { display: flex; align-items: center; justify-content: center; width: 32px; height: 30px; padding: 0; border: 0; border-radius: 4px; background: transparent; color: var(--nn-muted); cursor: pointer; }\n.layout__center .nn-history button:hover:not(:disabled) { background: var(--nn-hover); color: var(--nn-text); }\n.layout__center .nn-history button:disabled { opacity: .35; cursor: default; }\n.layout__center .nn-history svg { width: 14px; height: 14px; }\n.layout__center .nn-history button:focus-visible { outline: 2px solid var(--b3-theme-primary); outline-offset: -2px; }\n.layout__center .layout-tab-bar .item__close:hover {\n  color: var(--nn-text) !important;\n  background: var(--nn-line) !important;\n}\n.layout__center .layout-tab-bar .item--readonly {\n  height: 38px !important;\n  min-height: 38px !important;\n  margin: 0 !important;\n  padding: 0 6px !important;\n  border: 0 !important;\n  border-radius: 0 !important;\n  background: transparent !important;\n  box-shadow: none !important;\n}\n.layout__center .layout-tab-bar .block__icon {\n  color: var(--nn-muted) !important;\n  border-radius: 4px !important;\n}\n.layout__center .layout-tab-bar .block__icon:hover {\n  color: var(--nn-text) !important;\n  background: var(--nn-hover) !important;\n}\n.layout__center .protyle > .protyle-breadcrumb {\n  box-sizing: border-box !important;\n  height: 44px !important;\n  min-height: 44px !important;\n  padding: 8px 16px !important;\n  gap: 0;\n  background: var(--nn-active) !important;\n  border: 0 !important;\n  border-radius: 0 !important;\n  box-shadow: none !important;\n  font-family: var(--b3-font-family) !important;\n  font-size: 14px !important;\n  color: var(--nn-text) !important;\n}\n.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar {\n  min-width: 0;\n  flex-shrink: 1;\n  gap: 0;\n}\n.layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item {\n  min-width: 24px;\n  height: 28px !important;\n  padding: 0 5px !important;\n  border-radius: 4px !important;\n  background: transparent !important;\n  color: var(--nn-text) !important;\n  font-weight: 400 !important;\n}\n.layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item:hover {\n  background: var(--nn-hover) !important;\n}\n.layout__center .protyle > .protyle-breadcrumb [data-nn-original] {\n  display: none !important;\n}\n.layout__center .nn-document-path {\n  display: flex;\n  align-items: center;\n  min-width: 0;\n  max-width: 100%;\n  flex-shrink: 1;\n  gap: 0;\n  overflow-x: auto;\n  scrollbar-width: none;\n}\n.layout__center .nn-document-path > button,\n.layout__center .nn-document-path > .nn-notebook {\n  flex-shrink: 0;\n  max-width: 220px;\n  overflow: hidden;\n  text-overflow: ellipsis;\n  white-space: nowrap;\n  font: inherit;\n  line-height: 28px;\n  color: var(--nn-text);\n  background: transparent;\n  border: 0;\n  border-radius: 4px;\n  margin: 0;\n  padding: 0 2px;\n}\n.layout__center .nn-document-path > .nn-notebook {\n  color: var(--nn-text);\n}\n.layout__center .nn-document-path > button {\n  cursor: pointer;\n}\n.layout__center .nn-document-path > button:hover {\n  background: var(--nn-hover);\n}\n.layout__center .nn-document-path > button[aria-current=\"page\"] {\n  font-weight: 500;\n}\n.layout__center .nn-document-path > .nn-path-separator {\n  flex-shrink: 0;\n  padding: 0 7px;\n  color: var(--nn-separator) !important;\n}\n/* Native document crumbs contain their full path in aria-label but usually show only an icon. */\n.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child:not(:has(.protyle-breadcrumb__text)) {\n  max-width: min(420px, 55vw) !important;\n  overflow: hidden;\n}\n.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child:not(:has(.protyle-breadcrumb__text))::after {\n  content: attr(aria-label);\n  white-space: nowrap;\n  text-overflow: ellipsis;\n  overflow: hidden;\n  line-height: 28px;\n}\n.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child::before {\n  display: none !important;\n}\n.layout__center .protyle > .protyle-breadcrumb > .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child > svg,\n.layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item:has(.protyle-breadcrumb__text) > svg {\n  display: none !important;\n}\n.layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__text {\n  font-size: 14px !important;\n  line-height: 28px !important;\n  margin: 0 !important;\n  color: inherit !important;\n}\n.layout__center .protyle > .protyle-breadcrumb button.protyle-breadcrumb__arrow {\n  position: relative;\n  flex-shrink: 0;\n  width: 18px !important;\n  height: 28px !important;\n  margin: 0 !important;\n  border-radius: 4px !important;\n  color: var(--nn-separator) !important;\n}\n.layout__center .protyle > .protyle-breadcrumb button.protyle-breadcrumb__arrow > svg {\n  visibility: hidden;\n}\n.layout__center .protyle > .protyle-breadcrumb button.protyle-breadcrumb__arrow::after {\n  content: \"/\";\n  position: absolute;\n  inset: 0;\n  line-height: 28px;\n  text-align: center;\n  pointer-events: none;\n}\n/* Show page paths by default; native block paths remain available on hover/focus. */\n.layout__center .protyle-breadcrumb__bar:has(> .nn-document-path):not(:hover):not(:focus-within) > .protyle-breadcrumb__item:not([data-nn-original]),\n.layout__center .protyle-breadcrumb__bar:has(> .nn-document-path):not(:hover):not(:focus-within) > .protyle-breadcrumb__arrow {\n  display: none !important;\n}\n.layout__center .protyle > .protyle-breadcrumb > .block__icon {\n  color: var(--nn-muted) !important;\n  border-radius: 4px !important;\n}\n.layout__center .protyle > .protyle-breadcrumb > .block__icon:hover {\n  color: var(--nn-text) !important;\n  background: var(--nn-hover) !important;\n}\n.layout__center .layout-tab-bar :focus-visible,\n.layout__center .protyle > .protyle-breadcrumb :focus-visible {\n  outline: 2px solid var(--b3-theme-primary) !important;\n  outline-offset: -2px;\n}\n@media (max-width: 700px) {\n  .layout__center .layout-tab-bar > .item:not(.item--readonly) {\n    padding-left: 10px !important;\n    padding-right: 8px !important;\n  }\n  .layout__center .protyle > .protyle-breadcrumb {\n    padding-left: 6px !important;\n    padding-right: 6px !important;\n  }\n}\n";
+const css = "/* Scoped to the central workspace: sidebars, popovers and note content stay native. */\nhtml[data-theme-mode=\"dark\"] .layout__center {\n  --nn-tab: #202020;\n  --nn-active: #191919;\n  --nn-line: #303030;\n  --nn-text: #ebebeb;\n  --nn-muted: #9b9b9b;\n  --nn-separator: #555555;\n  --nn-hover: #292929;\n}\nhtml[data-theme-mode=\"light\"] .layout__center {\n  --nn-tab: #f7f7f5;\n  --nn-active: #ffffff;\n  --nn-line: #e9e9e7;\n  --nn-text: #37352f;\n  --nn-muted: #787774;\n  --nn-separator: #c4c4c0;\n  --nn-hover: #efefed;\n}\n.layout__center [data-type=\"wnd\"] > .fn__flex:has(> .layout-tab-bar) {\n  min-width: 0;\n  background: var(--nn-tab) !important;\n  border-radius: 0 !important;\n  box-shadow: inset 0 -1px var(--nn-line) !important;\n}\n.layout__center,\n.layout__center > .fn__flex:has([data-type=\"wnd\"]) {\n  border-top-left-radius: 0 !important;\n  border-top-right-radius: 0 !important;\n}\n.layout__center .layout-tab-bar {\n  margin-top: 0 !important;\n  margin-bottom: 0 !important;\n  margin-left: 0 !important;\n  /* SiYuan sets inline margin-right to reserve toolbar/window controls in merged mode. */\n  margin-right: 0;\n  height: 38px !important;\n  min-height: 38px !important;\n  padding: 0 !important;\n  gap: 0 !important;\n  border-radius: 0 !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  border: 0 !important;\n}\nbody:not(.body--toolbar-hide) .layout__center .layout-tab-bar {\n  margin-right: 0 !important;\n}\n.layout__center .layout-tab-bar > .item:not(.item--readonly) {\n  box-sizing: border-box !important;\n  height: 38px !important;\n  min-height: 38px !important;\n  flex: 0 0 220px !important;\n  width: 220px !important;\n  max-width: 220px !important;\n  justify-content: flex-start !important;\n  margin: 0 !important;\n  padding: 0 12px 0 16px !important;\n  border: 0 !important;\n  border-right: 1px solid var(--nn-line) !important;\n  border-radius: 0 !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  color: var(--nn-text) !important;\n  transition: none !important;\n}\n.layout__center .layout-tab-bar > .item:not(.item--readonly)::before,\n.layout__center .layout-tab-bar > .item:not(.item--readonly)::after {\n  display: none !important;\n}\n.layout__center .layout-tab-bar > .item:not(.item--readonly):hover {\n  background: var(--nn-hover) !important;\n  color: var(--nn-text) !important;\n}\n.layout__center .layout-tab-bar > .item.item--focus {\n  background: var(--nn-active) !important;\n  color: var(--nn-text) !important;\n}\n.layout__center .layout-tab-bar .item__text {\n  padding: 0 !important;\n  margin: 0 !important;\n  flex: 1 1 auto !important;\n  min-width: 0;\n  text-align: left !important;\n  font-family: var(--b3-font-family) !important;\n  font-size: 14px !important;\n  line-height: 20px !important;\n  color: inherit !important;\n  font-weight: 400 !important;\n  text-shadow: none !important;\n  transition: none !important;\n}\n.layout__center .layout-tab-bar .item--focus .item__text {\n  font-weight: 600 !important;\n}\n.layout__center .layout-tab-bar .item__icon {\n  margin-right: 6px !important;\n}\n.layout__center .layout-tab-bar .item__close {\n  opacity: 0;\n  border-radius: 4px !important;\n  color: var(--nn-muted) !important;\n  background: transparent !important;\n}\n.layout__center .layout-tab-bar .item:hover .item__close,\n.layout__center .layout-tab-bar .item:focus-within .item__close { opacity: 1; }\n.layout__center .layout-tab-bar > .item.item--pin { flex: 0 0 auto !important; width: auto !important; min-width: 38px; }\n.layout__center .layout-tab-bar:not(.layout-tab-bar--readonly) { flex: 0 1 auto !important; min-width: 0; overflow-x: auto !important; scrollbar-width: none; }\n.layout__center .layout-tab-bar--readonly { min-width: 64px; }\n.layout__center .layout-tab-bar .item__close:hover {\n  color: var(--nn-text) !important;\n  background: var(--nn-line) !important;\n}\n.layout__center .layout-tab-bar .item--readonly {\n  height: 38px !important;\n  min-height: 38px !important;\n  margin: 0 !important;\n  padding: 0 6px !important;\n  border: 0 !important;\n  border-radius: 0 !important;\n  background: transparent !important;\n  box-shadow: none !important;\n}\n.layout__center .layout-tab-bar .block__icon {\n  color: var(--nn-muted) !important;\n  border-radius: 4px !important;\n}\n.layout__center .layout-tab-bar .block__icon:hover {\n  color: var(--nn-text) !important;\n  background: var(--nn-hover) !important;\n}\n/* Native breadcrumb nodes, icons, arrows and hit areas remain intact. */\n.layout__center .protyle > .protyle-breadcrumb {\n  background: var(--nn-active) !important;\n  box-shadow: none !important;\n  border-radius: 0 !important;\n  color: var(--nn-text) !important;\n}\n.layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item {\n  border-radius: 4px !important;\n}\n.layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item:hover {\n  background: var(--nn-hover) !important;\n}\nbody.body--toolbar-hide .layout__center .layout__wnd--center > .fn__flex > .layout-tab-bar {\n  height: 42px !important;\n  min-height: 42px !important;\n}\n";
 const treeCSS = "html[data-theme-mode=\"dark\"] .sy__file {\n  --ni-surface: #202020; --ni-hover: #292929; --ni-selected: #303030;\n  --ni-text: #ddddda; --ni-muted: #999995; --ni-line: #303030;\n}\nhtml[data-theme-mode=\"light\"] .sy__file {\n  --ni-surface: #f7f7f5; --ni-hover: #efefed; --ni-selected: #e7e7e4;\n  --ni-text: #37352f; --ni-muted: #787774; --ni-line: #e5e5e2;\n}\n#layouts .sy__file.file-tree.dockPanel {\n  background: var(--ni-surface) !important;\n  color: var(--ni-text) !important;\n  border-radius: 0 !important;\n}\n#layouts .sy__file.file-tree.dockPanel > .block__icons {\n  background: transparent !important;\n  min-height: 36px;\n  padding: 4px 12px;\n  box-shadow: none !important;\n  border: 0 !important;\n}\n#layouts .sy__file.file-tree.dockPanel .block__logo {\n  font-size: 12px !important;\n  font-weight: 500 !important;\n  color: var(--ni-muted) !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list--background {\n  background: transparent !important;\n  box-shadow: none !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list-item {\n  min-height: 28px !important;\n  margin: 1px 6px !important;\n  padding-top: 0 !important;\n  padding-bottom: 0 !important;\n  border: 0 !important;\n  border-radius: 4px !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  color: var(--ni-text) !important;\n  transition: none !important;\n}\n#layouts .sy__file.file-tree.dockPanel [data-type=\"navigation-root\"] {\n  margin-top: 6px !important;\n  margin-bottom: 3px !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list-item:hover {\n  background: var(--ni-hover) !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list-item--focus {\n  background: var(--ni-selected) !important;\n  color: var(--ni-text) !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list-item__text {\n  font-size: 14px !important;\n  line-height: 28px !important;\n  font-weight: 400 !important;\n  color: inherit !important;\n  text-shadow: none !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list-item--focus > .b3-list-item__text {\n  font-weight: 600 !important;\n}\n#layouts .sy__file.file-tree.dockPanel :is(.b3-list-item__toggle, .b3-list-item__arrow, .b3-list-item__graphic, .b3-list-item__action, .block__icon) {\n  color: var(--ni-muted) !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list-item__action {\n  opacity: 0 !important;\n  border-radius: 3px !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list-item:is(:hover, :focus-within) > .b3-list-item__action {\n  opacity: 1 !important;\n}\n#layouts .sy__file.file-tree.dockPanel .b3-list-item__action:hover {\n  background: var(--ni-selected) !important;\n  color: var(--ni-text) !important;\n}\n#layouts .sy__file.file-tree.dockPanel .counter {\n  background: transparent !important;\n  color: var(--ni-muted) !important;\n  box-shadow: none !important;\n  font-size: 11px !important;\n}\n#layouts .sy__file.file-tree.dockPanel :focus-visible {\n  outline: 2px solid var(--b3-theme-primary) !important;\n  outline-offset: -2px;\n}\n";
 const searchCSS = "html[data-theme-mode=\"dark\"] [data-key=\"dialog-globalsearch\"] {\n  --ni-surface: #252525; --ni-input: #252525; --ni-results: #252525; --ni-preview: #191919;\n  --ni-hover: #303030; --ni-selected: #383838; --ni-line: #3b3b3b;\n  --ni-text: #dededc; --ni-muted: #999994; --ni-mark: transparent; --ni-mark-text: #dededc;\n}\nhtml[data-theme-mode=\"light\"] [data-key=\"dialog-globalsearch\"] {\n  --ni-surface: #ffffff; --ni-input: #ffffff; --ni-results: #ffffff; --ni-preview: #fafaf9;\n  --ni-hover: #f7f7f5; --ni-selected: #efefed; --ni-line: #e9e9e7;\n  --ni-text: #37352f; --ni-muted: #787774; --ni-mark: #f4e8c4; --ni-mark-text: #655029;\n}\n[data-key=\"dialog-globalsearch\"] .b3-dialog__container {\n  width: min(1008px, calc(100vw - 32px)) !important;\n  height: min(700px, calc(100vh - 48px)) !important;\n  max-width: calc(100vw - 32px);\n  max-height: calc(100vh - 48px);\n  border: 1px solid var(--ni-line) !important;\n  border-radius: 18px !important;\n  background: var(--ni-surface) !important;\n  box-shadow: 0 16px 64px #00000030 !important;\n  color: var(--ni-text);\n}\n[data-key=\"dialog-globalsearch\"] .b3-dialog__body > .fn__flex-column {\n  background: var(--ni-surface) !important;\n  border-radius: 18px !important;\n}\n/* Put the query first without moving or replacing native controls. */\n[data-key=\"dialog-globalsearch\"] .b3-dialog__body > .fn__flex-column > .block__icons { order: 3; }\n[data-key=\"dialog-globalsearch\"] .b3-dialog__body > .fn__flex-column > .search__header { order: 4; }\n[data-key=\"dialog-globalsearch\"] .b3-dialog__body > .fn__flex-column > .search__header:has(#searchInput) { order: 1; }\n[data-key=\"dialog-globalsearch\"] #criteria { order: 5; }\n[data-key=\"dialog-globalsearch\"] .ni-search-controls { order: 2; }\n[data-key=\"dialog-globalsearch\"] .ni-search-label { order: 6; }\n[data-key=\"dialog-globalsearch\"] .search__layout { order: 7; flex-direction: row !important; min-height: 0; padding: 0 12px 12px; gap: 14px; }\n[data-key=\"dialog-globalsearch\"] .search__tip { order: 8; }\n[data-key=\"dialog-globalsearch\"] .search__drag { display: none !important; }\n[data-key=\"dialog-globalsearch\"] .search__header {\n  background: var(--ni-input) !important;\n  border-radius: 0 !important;\n  box-shadow: none !important;\n  border: 0 !important;\n}\n[data-key=\"dialog-globalsearch\"] .search__header:has(#searchInput) {\n  min-height: 54px;\n  padding: 0 14px !important;\n}\n[data-key=\"dialog-globalsearch\"] #searchInput {\n  font-family: var(--b3-font-family) !important;\n  font-size: 17px !important;\n  line-height: 26px !important;\n  min-height: 54px !important;\n  padding: 14px 32px 14px 36px !important;\n  background: transparent !important;\n  color: var(--ni-text) !important;\n  border-radius: 0 !important;\n  box-shadow: none !important;\n}\n[data-key=\"dialog-globalsearch\"] #searchInput::placeholder { color: var(--ni-muted); font-size: 17px; }\n[data-key=\"dialog-globalsearch\"] #searchHistoryBtn .search__arrowdown { display: none; }\n[data-key=\"dialog-globalsearch\"].ni-search-ready:not(.ni-search-advanced) .search__header:has(#searchInput) > .block__icons,\n[data-key=\"dialog-globalsearch\"].ni-search-ready:not(.ni-search-advanced) .b3-dialog__body > .fn__flex-column > .block__icons,\n[data-key=\"dialog-globalsearch\"].ni-search-ready:not(.ni-search-advanced) #criteria { display: none !important; }\n[data-key=\"dialog-globalsearch\"] .ni-search-controls { display: flex; align-items: center; gap: 6px; padding: 0 17px 7px; min-height: 31px; }\n[data-key=\"dialog-globalsearch\"] .ni-search-controls button { display: inline-flex; align-items: center; gap: 6px; min-width: 0; padding: 5px 7px; font: 13px/20px var(--b3-font-family); color: var(--ni-muted); background: transparent; border: 0; border-radius: 5px; cursor: pointer; white-space: nowrap; }\n[data-key=\"dialog-globalsearch\"] .ni-search-controls button:hover { background: var(--ni-hover); color: var(--ni-text); }\n[data-key=\"dialog-globalsearch\"] .ni-search-controls button[aria-pressed=\"true\"] { color: var(--ni-text); }\n[data-key=\"dialog-globalsearch\"] .ni-search-controls button:disabled { opacity: .45; cursor: default; }\n[data-key=\"dialog-globalsearch\"] .ni-search-controls svg { width: 15px; height: 15px; flex: none; }\n[data-key=\"dialog-globalsearch\"] .ni-search-controls [data-ni-action=\"path\"] span { max-width: 220px; overflow: hidden; text-overflow: ellipsis; }\n[data-key=\"dialog-globalsearch\"] .ni-search-spacer { flex: 1; }\n[data-key=\"dialog-globalsearch\"] .ni-search-label { padding: 7px 24px 5px; font-size: 12px; color: var(--ni-muted); }\n[data-key=\"dialog-globalsearch\"] .search__header .block__icons,\n[data-key=\"dialog-globalsearch\"] .b3-dialog__body > .fn__flex-column > .block__icons {\n  background: transparent !important;\n  box-shadow: none !important;\n  border: 0 !important;\n  color: var(--ni-muted) !important;\n}\n[data-key=\"dialog-globalsearch\"] .b3-dialog__body > .fn__flex-column > .block__icons {\n  padding: 4px 14px;\n  min-height: 32px;\n  font-size: 12px;\n}\n[data-key=\"dialog-globalsearch\"] .block__icon { color: var(--ni-muted) !important; border-radius: 4px !important; }\n[data-key=\"dialog-globalsearch\"] .block__icon:not([disabled]):hover { background: var(--ni-hover) !important; color: var(--ni-text) !important; }\n[data-key=\"dialog-globalsearch\"] #criteria { padding: 2px 14px 8px; }\n[data-key=\"dialog-globalsearch\"] #criteria .b3-button {\n  color: var(--ni-muted) !important;\n  background: transparent !important;\n  border: 1px solid var(--ni-line) !important;\n  box-shadow: none !important;\n  border-radius: 4px !important;\n  font-size: 12px;\n}\n[data-key=\"dialog-globalsearch\"] #searchList {\n  flex: 1 1 60% !important;\n  width: 0 !important;\n  height: auto !important;\n  min-width: 0;\n  margin: 0 !important;\n  padding: 0 4px 0 0 !important;\n  border-radius: 0 !important;\n  background: var(--ni-results) !important;\n}\n[data-key=\"dialog-globalsearch\"] #searchList [data-type=\"search-item\"] {\n  display: flex !important;\n  flex-wrap: nowrap !important;\n  align-items: center !important;\n  min-height: 36px !important;\n  height: 36px !important;\n  margin: 1px 0 !important;\n  padding: 0 10px !important;\n  border: 0 !important;\n  border-radius: 10px !important;\n  background: transparent !important;\n  box-shadow: none !important;\n  color: var(--ni-text) !important;\n}\n[data-key=\"dialog-globalsearch\"] #searchList > .b3-list-item[data-type=\"search-item\"]:hover { background: var(--ni-hover) !important; }\n[data-key=\"dialog-globalsearch\"] #searchList > .b3-list-item[data-type=\"search-item\"].b3-list-item--focus { background: var(--ni-selected) !important; }\n[data-key=\"dialog-globalsearch\"] #searchList .b3-list-item__graphic {\n  color: var(--ni-muted) !important;\n  position: static !important;\n  flex: none !important;\n  width: 16px; height: 16px;\n  margin: 0 10px 0 0 !important;\n  padding: 0 !important;\n}\n[data-key=\"dialog-globalsearch\"] #searchList .b3-list-item__text {\n  display: block !important;\n  flex: 0 1 auto !important;\n  max-width: 68%;\n  white-space: nowrap !important;\n  overflow: hidden !important;\n  text-overflow: ellipsis !important;\n  -webkit-line-clamp: 1 !important;\n  min-width: 0;\n  padding: 0 !important;\n  margin: 0 !important;\n  font-size: 14px !important;\n  line-height: 22px !important;\n  color: var(--ni-text) !important;\n  font-weight: 400 !important;\n}\n[data-key=\"dialog-globalsearch\"] #searchList .b3-list-item__meta {\n  position: static !important;\n  order: 0 !important;\n  flex: 1 1 40% !important;\n  min-width: 0;\n  max-width: none !important;\n  margin: 0 !important;\n  padding: 0 !important;\n  font-size: 12px !important;\n  line-height: 22px !important;\n  text-align: left !important;\n  color: var(--ni-muted) !important;\n  opacity: 1 !important;\n  background: transparent !important;\n}\n[data-key=\"dialog-globalsearch\"] #searchList .b3-list-item__meta::before { display: inline !important; content: ' — ' !important; white-space: pre; }\n[data-key=\"dialog-globalsearch\"] #searchList mark {\n  color: var(--ni-mark-text) !important;\n  background: var(--ni-mark) !important;\n  border-radius: 2px;\n  padding: 0 1px;\n}\n[data-key=\"dialog-globalsearch\"] #searchList .counter { display: none !important; }\n[data-key=\"dialog-globalsearch\"] #searchPreview {\n  flex: 1 1 40% !important;\n  width: 0 !important; min-width: 0; height: auto !important;\n  border: 1px solid var(--ni-line) !important;\n  border-radius: 13px !important;\n  margin: 0 !important;\n  background: var(--ni-preview) !important;\n  overflow: hidden;\n}\n[data-key=\"dialog-globalsearch\"] #searchPreview > .protyle-content { background: transparent !important; }\n[data-key=\"dialog-globalsearch\"] #searchPreview > .protyle-breadcrumb { padding: 9px 12px; border-bottom: 1px solid var(--ni-line); background: transparent !important; }\n[data-key=\"dialog-globalsearch\"] #searchPreview .protyle-title { margin: 30px 22px 12px !important; font-size: 24px !important; }\n[data-key=\"dialog-globalsearch\"] #searchPreview .protyle-title__input { font-size: 24px !important; line-height: 1.4 !important; padding: 0 !important; }\n[data-key=\"dialog-globalsearch\"].ni-search-recent #searchPreview .protyle-title__input.protyle-wysiwyg--hl::after { background: transparent !important; }\n[data-key=\"dialog-globalsearch\"] #searchPreview .protyle-wysiwyg { padding: 0 22px 60px !important; font-size: 14px !important; }\n[data-key=\"dialog-globalsearch\"].ni-search-no-preview #searchPreview { display: none !important; }\n[data-key=\"dialog-globalsearch\"] .search__tip {\n  padding: 8px 12px;\n  background: var(--ni-surface) !important;\n  border-top: 1px solid var(--ni-line);\n  font-size: 11px;\n  color: var(--ni-muted) !important;\n}\n[data-key=\"dialog-globalsearch\"] .search__tip kbd { background: transparent !important; box-shadow: none !important; color: var(--ni-muted) !important; }\n[data-key=\"dialog-globalsearch\"] :focus-visible { outline: 2px solid var(--b3-theme-primary); outline-offset: -2px; }\n[data-key=\"dialog-globalsearch\"] #searchInput:focus-visible { outline: none; }\n@media (max-width: 760px) {\n  [data-key=\"dialog-globalsearch\"] .b3-dialog__container { max-width: calc(100vw - 24px); }\n  [data-key=\"dialog-globalsearch\"] .search__header:has(#searchInput) { flex-wrap: wrap; }\n  [data-key=\"dialog-globalsearch\"] .search__header:has(#searchInput) > .fn__flex-1 { min-width: 160px; }\n  [data-key=\"dialog-globalsearch\"] #searchPreview { display: none !important; }\n  [data-key=\"dialog-globalsearch\"] .ni-search-controls { gap: 0; padding: 0 10px 7px; }\n  [data-key=\"dialog-globalsearch\"] .ni-search-controls [data-ni-action=\"preview\"] { display: none; }\n  [data-key=\"dialog-globalsearch\"] .ni-search-controls [data-ni-action=\"path\"] span { max-width: 90px; }\n}\n";
 const findCSS = "html[data-theme-mode=\"dark\"] .ni-find { --nf-bg:#202020; --nf-line:#41464c; --nf-focus:#485761; --nf-text:#dededb; --nf-muted:#979792; --nf-hover:#303030; }\nhtml[data-theme-mode=\"light\"] .ni-find { --nf-bg:#fff; --nf-line:#d7d7d4; --nf-focus:#b2c2ce; --nf-text:#37352f; --nf-muted:#787774; --nf-hover:#f2f2ef; }\n.ni-find:not(.ni-find-expanded), .ni-find:not(.ni-find-expanded) > .b3-dialog { pointer-events:none; }\n.ni-find:not(.ni-find-expanded) .b3-dialog__scrim { background:transparent!important; pointer-events:none; backdrop-filter:none!important; }\n.ni-find:not(.ni-find-expanded) .b3-dialog__container {\n  position:fixed!important; top:var(--ni-find-top)!important; right:var(--ni-find-right)!important; left:auto!important; bottom:auto!important;\n  transform:none!important; width:min(284px, var(--ni-find-width), calc(100vw - 32px))!important; height:auto!important; min-height:42px!important; max-height:calc(100vh - 32px);\n  margin:0!important; padding:0!important; border:1px solid var(--nf-line)!important; border-radius:13px!important; background:var(--nf-bg)!important;\n  box-shadow:0 3px 12px #00000018!important; pointer-events:auto; overflow:hidden;\n}\n.ni-find:not(.ni-find-expanded) .b3-dialog__container:focus-within { border-color:var(--nf-focus)!important; box-shadow:0 0 0 1px var(--nf-focus)!important; }\n.ni-find:not(.ni-find-expanded) .b3-dialog__body > .fn__flex-column { background:transparent!important; height:auto!important; border-radius:0!important; }\n.ni-find:not(.ni-find-expanded) .b3-dialog__body > .fn__flex-column > :not(.search__header:has(#searchInput)):not(.ni-find-tools) { display:none!important; }\n.ni-find:not(.ni-find-expanded) .search__header:has(#searchInput) { display:flex!important; align-items:center; order:1; padding:0 8px 0 10px!important; margin:0!important; min-height:42px; background:transparent!important; border:0!important; border-radius:0!important; box-shadow:none!important; }\n.ni-find:not(.ni-find-expanded) .search__header:has(#searchInput) > .fn__flex-1 { min-width:0; }\n.ni-find:not(.ni-find-expanded) #searchInput { display:block; box-sizing:border-box; width:100%; min-height:40px!important; height:40px!important; max-height:40px!important; padding:10px 0!important; margin:0!important; resize:none; font:13px/20px var(--b3-font-family)!important; border:0!important; border-radius:0!important; outline:none!important; box-shadow:none!important; background:transparent!important; color:var(--nf-text)!important; }\n.ni-find:not(.ni-find-expanded) #searchInput::placeholder { color:var(--nf-muted); text-align:left!important; opacity:1; font-size:13px!important; }\n.ni-find:not(.ni-find-expanded) #searchInput { text-align:left!important; }\n/* Savor reserves 60 px for its search icon; the compact panel has no icon. */\n.ni-find.b3-dialog--open[data-key=\"dialog-search\"]:not(.ni-find-expanded) .b3-dialog__container .fn__flex-column .b3-form__icon.search__header #searchInput { padding:10px 0!important; }\n.ni-find:not(.ni-find-expanded) .search__header:has(#searchInput) > .block__icons,\n.ni-find:not(.ni-find-expanded) #searchHistoryBtn,\n.ni-find:not(.ni-find-expanded) .search__header:has(#searchInput) .b3-form__icon-clear { display:none!important; }\n.ni-find .ni-find-close { flex:none; width:28px; height:28px; padding:0; border:0; border-radius:4px; font:20px/28px var(--b3-font-family); color:var(--nf-muted); background:transparent; cursor:pointer; }\n.ni-find .ni-find-close:hover { background:var(--nf-hover); color:var(--nf-text); }\n.ni-find .ni-find-tools { display:flex; flex-wrap:wrap; order:2; gap:3px; align-items:center; padding:3px 8px 8px 10px; color:var(--nf-muted); font:12px/22px var(--b3-font-family); }\n.ni-find:not(.ni-find-has-query):not(.ni-find-expanded) .ni-find-tools { display:none; }\n.ni-find .ni-find-tools [role=\"status\"] { flex:1; min-width:65px; }\n.ni-find .ni-find-tools button { border:0; border-radius:4px; padding:2px 6px; background:transparent; color:var(--nf-muted); font:12px/22px var(--b3-font-family); cursor:pointer; white-space:nowrap; }\n.ni-find .ni-find-tools button:hover:not(:disabled) { background:var(--nf-hover); color:var(--nf-text); }\n.ni-find .ni-find-tools button:disabled { opacity:.35; cursor:default; }\n.ni-find button:focus-visible { outline:2px solid var(--nf-focus); outline-offset:-2px; }\n.layout__center .ni-find-current { outline:1px solid #b59b55; outline-offset:2px; background-color:#b59b551c!important; }\n";
@@ -7,18 +7,8 @@ const findCSS = "html[data-theme-mode=\"dark\"] .ni-find { --nf-bg:#202020; --nf
 module.exports = class NotionNavigation extends Plugin {
   async onload() {
     this.alive = true;
-    this.states = new Map();
     this.styles = new Map();
     this.preferences = { navigation: true, tree: true, search: true };
-    this.navigationEnabled = false;
-    this.events = ['loaded-protyle-static', 'loaded-protyle-dynamic', 'switch-protyle'];
-    this.onEditor = event => this.attach(event.detail.protyle);
-    this.onDestroy = event => {
-      for (const state of this.states.values()) {
-        if (state.protyle === event.detail.protyle) this.dispose(state);
-      }
-      queueMicrotask(() => { if (this.alive && this.navigationEnabled) this.syncTabHistory(); });
-    };
     try {
       const saved = await this.loadData('settings.json');
       for (const key of Object.keys(this.preferences)) {
@@ -43,14 +33,6 @@ module.exports = class NotionNavigation extends Plugin {
         this.styles.get(key)?.remove();
         this.styles.delete(key);
       }
-    }
-    if (this.preferences.navigation && !this.navigationEnabled) {
-      this.navigationEnabled = true;
-      for (const event of this.events) this.eventBus.on(event, this.onEditor);
-      this.eventBus.on('destroy-protyle', this.onDestroy);
-      this.onLayoutReady();
-    } else if (!this.preferences.navigation) {
-      this.stopNavigation();
     }
     if (this.preferences.search) this.startSearch();
     else this.stopSearch();
@@ -321,16 +303,6 @@ module.exports = class NotionNavigation extends Plugin {
     if (state.root.isConnected && state.root.dataset.key === 'dialog-search') state.root.querySelector('#searchRefresh')?.click();
   }
 
-  stopNavigation() {
-    this.disposeTabHistory();
-    if (this.navigationEnabled) {
-      for (const event of this.events) this.eventBus.off(event, this.onEditor);
-      this.eventBus.off('destroy-protyle', this.onDestroy);
-      this.navigationEnabled = false;
-    }
-    for (const state of this.states.values()) this.dispose(state);
-  }
-
   async updatePreference(key, value) {
     if (!Object.hasOwn(this.preferences, key) || typeof value !== 'boolean') throw new Error('Invalid preference');
     const next = { ...this.preferences, [key]: value };
@@ -362,7 +334,7 @@ module.exports = class NotionNavigation extends Plugin {
     </style>
     <h2>让常用界面更简洁</h2>
     <p>按区域独立开启。关闭某项后，会恢复当前主题和代码片段提供的外观。</p>
-    <label><span><strong>导航栏与路径</strong><small>平直标签页，逐级点击父页面。</small></span><input type="checkbox" role="switch" data-option="navigation" aria-label="导航栏与路径"></label>
+    <label><span><strong>导航栏与路径</strong><small>简洁标签页；保留原生历史按钮、文档路径和块级面包屑。</small></span><input type="checkbox" role="switch" data-option="navigation" aria-label="导航栏与路径"></label>
     <label><span><strong>左侧文档树</strong><small>柔和的选中底色，清楚的层级，悬停时显示操作按钮。</small></span><input type="checkbox" role="switch" data-option="tree" aria-label="左侧文档树"></label>
     <label><span><strong>搜索与页内查找</strong><small>全局搜索使用页面列表与卡片预览，页内查找使用右上角小浮层。</small></span><input type="checkbox" role="switch" data-option="search" aria-label="搜索与页内查找"></label>
     <footer>更改自动保存并立即生效。Ctrl+P 全局搜索；Ctrl+F 页内查找。</footer><div role="status" aria-live="polite"></div>`;
@@ -391,108 +363,6 @@ module.exports = class NotionNavigation extends Plugin {
     if (dialog) { dialog.classList.add('ni-settings-dialog'); dialog.style.maxWidth = 'calc(100vw - 32px)'; dialog.style.maxHeight = 'calc(100vh - 48px)'; }
   }
 
-  onLayoutReady() {
-    if (this.alive && this.navigationEnabled) {
-      this.syncTabHistory();
-      for (const editor of getAllEditor()) this.attach(editor.protyle);
-    }
-  }
-
-  syncTabHistory() {
-    const tabs = document.querySelector('.layout__center .layout-tab-bar:not(.layout-tab-bar--readonly)');
-    if (this.tabHistory?.tabs === tabs) return;
-    this.disposeTabHistory();
-    const back = document.querySelector('#barBack');
-    const forward = document.querySelector('#barForward');
-    if (!tabs || !back || !forward) return;
-    const nav = document.createElement('nav');
-    nav.className = 'nn-history';
-    nav.setAttribute('aria-label', '浏览历史');
-    const pairs = [back, forward].map(source => {
-      const button = document.createElement('button');
-      button.type = 'button';
-      button.setAttribute('aria-label', source.getAttribute('aria-label'));
-      button.title = source.getAttribute('aria-label');
-      button.innerHTML = source.querySelector('svg')?.outerHTML || '';
-      const click = () => { if (!button.disabled) source.click(); };
-      button.addEventListener('click', click);
-      source.setAttribute('data-nn-history-original', '');
-      nav.appendChild(button);
-      return { source, button, click };
-    });
-    const sync = () => pairs.forEach(({ source, button }) => {
-      button.disabled = source.disabled || source.classList.contains('toolbar__item--disabled') || source.getAttribute('aria-disabled') === 'true';
-    });
-    const observer = new MutationObserver(sync);
-    for (const { source } of pairs) observer.observe(source, { attributes: true, attributeFilter: ['class', 'disabled', 'aria-disabled'] });
-    tabs.before(nav);
-    sync();
-    this.tabHistory = { tabs, nav, pairs, observer };
-  }
-
-  disposeTabHistory() {
-    if (!this.tabHistory) return;
-    const { nav, pairs, observer } = this.tabHistory;
-    observer.disconnect();
-    for (const { source, button, click } of pairs) {
-      source.removeAttribute('data-nn-history-original');
-      button.removeEventListener('click', click);
-    }
-    nav.remove();
-    this.tabHistory = null;
-  }
-
-  attach(protyle) {
-    if (!this.alive || !this.navigationEnabled) return;
-    this.syncTabHistory();
-    for (const state of this.states.values()) {
-      if (!state.bar.isConnected) this.dispose(state);
-    }
-    const bar = protyle?.element?.closest('.layout__center') &&
-      protyle.element.querySelector(':scope > .protyle-breadcrumb > .protyle-breadcrumb__bar');
-    if (!bar) return;
-    let state = this.states.get(bar);
-    if (!state) {
-      state = { bar, protyle, key: '', data: null, nav: null, original: null };
-      state.observer = new MutationObserver(() => this.update(state));
-      // Only native breadcrumb children, never the editor body or document subtree.
-      state.observer.observe(bar, { childList: true });
-      this.states.set(bar, state);
-    }
-    state.protyle = protyle;
-    if (state.failed) state.key = '';
-    this.update(state);
-  }
-
-  update(state) {
-    if (!this.alive || !state.bar.isConnected) return;
-    const original = state.bar.querySelector(':scope > .protyle-breadcrumb__item[data-node-id]');
-    const rootID = state.protyle.block?.rootID;
-    if (!original || original.dataset.nodeId !== rootID) return;
-    state.original = original;
-    const key = `${rootID}|${state.protyle.path}|${original.getAttribute('aria-label')}`;
-    if (key === state.key) {
-      if (state.data) this.render(state);
-      return;
-    }
-    state.request?.abort();
-    state.key = key;
-    state.data = null;
-    state.failed = false;
-    state.nav?.remove();
-    original.removeAttribute('data-nn-original');
-    const request = new AbortController();
-    state.request = request;
-    this.resolvePath(rootID, request.signal).then(data => {
-      if (!this.alive || request.signal.aborted || state.key !== key || !state.bar.isConnected) return;
-      state.data = data;
-      this.render(state);
-    }).catch(error => {
-      if (error.name !== 'AbortError' && state.key === key) state.failed = true;
-      // Keep the native document entry available when the workspace is unavailable.
-    });
-  }
-
   async api(path, data, signal) {
     const response = await fetch(`/api/${path}`, {
       method: 'POST', headers: { 'Content-Type': 'application/json' },
@@ -504,79 +374,9 @@ module.exports = class NotionNavigation extends Plugin {
     return result.data;
   }
 
-  async resolvePath(rootID, signal) {
-    const info = await this.api('block/getBlockInfo', { id: rootID }, signal);
-    const ids = info.path.replace(/\.sy$/, '').split('/').filter(Boolean);
-    if (ids.at(-1) !== rootID || ids.some(id => !/^\d{14}-[a-z0-9]{7}$/.test(id))) {
-      throw new Error('Invalid document path');
-    }
-    const docs = await Promise.all(ids.map(async id => {
-      const doc = await this.api('block/getDocInfo', { id }, signal);
-      return { id, name: doc.name || '未命名' };
-    }));
-    const notebook = window.siyuan.notebooks.find(item => item.id === info.box);
-    return { notebook: notebook?.name || '笔记本', docs };
-  }
-
-  render(state) {
-    const original = state.original;
-    if (!original?.isConnected || original.parentElement !== state.bar) return;
-    if (!state.nav) {
-      state.nav = document.createElement('nav');
-      state.nav.className = 'nn-document-path';
-      state.nav.setAttribute('aria-label', '文档路径');
-      state.click = event => {
-        event.stopPropagation();
-        const button = event.target.closest('button[data-nn-id]');
-        if (!button) return;
-        event.preventDefault();
-        try {
-          Promise.resolve(openTab({ app: this.app, doc: { id: button.dataset.nnId } }))
-            .catch(() => showMessage('无法打开该页面，请确认文档仍然存在。', 4000, 'error'));
-        } catch {
-          showMessage('无法打开该页面，请确认文档仍然存在。', 4000, 'error');
-        }
-      };
-      state.nav.addEventListener('click', state.click);
-    }
-    if (state.renderedData !== state.data) {
-      const notebook = document.createElement('span');
-      notebook.className = 'nn-notebook';
-      notebook.textContent = state.data.notebook;
-      notebook.title = `${state.data.notebook}（笔记本）`;
-      state.nav.replaceChildren(notebook);
-      for (const doc of state.data.docs) {
-        const separator = document.createElement('span');
-        separator.className = 'nn-path-separator';
-        separator.textContent = '/';
-        separator.setAttribute('aria-hidden', 'true');
-        const button = document.createElement('button');
-        button.type = 'button';
-        button.dataset.nnId = doc.id;
-        button.textContent = doc.name;
-        button.title = doc.name;
-        if (doc === state.data.docs.at(-1)) button.setAttribute('aria-current', 'page');
-        state.nav.append(separator, button);
-      }
-      state.renderedData = state.data;
-    }
-    original.setAttribute('data-nn-original', '');
-    if (state.nav.parentElement !== state.bar) state.bar.insertBefore(state.nav, original);
-  }
-
-  dispose(state) {
-    state.observer.disconnect();
-    state.request?.abort();
-    state.nav?.removeEventListener('click', state.click);
-    state.nav?.remove();
-    state.original?.removeAttribute('data-nn-original');
-    this.states.delete(state.bar);
-  }
-
   onunload() {
     this.alive = false;
     this.stopSearch();
-    this.stopNavigation();
     this.setting?.close();
     for (const style of this.styles.values()) style.remove();
     this.styles.clear();
