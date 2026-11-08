@@ -29,7 +29,11 @@ html[data-theme-mode="light"] .layout__center {
   border-top-right-radius: 0 !important;
 }
 .layout__center .layout-tab-bar {
-  margin: 0 !important;
+  margin-top: 0 !important;
+  margin-bottom: 0 !important;
+  margin-left: 0 !important;
+  /* SiYuan sets inline margin-right to reserve toolbar/window controls in merged mode. */
+  margin-right: 0;
   height: 38px !important;
   min-height: 38px !important;
   padding: 0 !important;
@@ -38,6 +42,9 @@ html[data-theme-mode="light"] .layout__center {
   background: transparent !important;
   box-shadow: none !important;
   border: 0 !important;
+}
+body:not(.body--toolbar-hide) .layout__center .layout-tab-bar {
+  margin-right: 0 !important;
 }
 .layout__center .layout-tab-bar > .item:not(.item--readonly) {
   box-sizing: border-box !important;
