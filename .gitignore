@@ -1,0 +1,3 @@
+qa/*
+!qa/check-lifecycle.cjs
+package.zip

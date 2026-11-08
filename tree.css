@@ -1,0 +1,86 @@
+html[data-theme-mode="dark"] .sy__file {
+  --ni-surface: #202020; --ni-hover: #292929; --ni-selected: #303030;
+  --ni-text: #ddddda; --ni-muted: #999995; --ni-line: #303030;
+}
+html[data-theme-mode="light"] .sy__file {
+  --ni-surface: #f7f7f5; --ni-hover: #efefed; --ni-selected: #e7e7e4;
+  --ni-text: #37352f; --ni-muted: #787774; --ni-line: #e5e5e2;
+}
+#layouts .sy__file.file-tree.dockPanel {
+  background: var(--ni-surface) !important;
+  color: var(--ni-text) !important;
+  border-radius: 0 !important;
+}
+#layouts .sy__file.file-tree.dockPanel > .block__icons {
+  background: transparent !important;
+  min-height: 36px;
+  padding: 4px 12px;
+  box-shadow: none !important;
+  border: 0 !important;
+}
+#layouts .sy__file.file-tree.dockPanel .block__logo {
+  font-size: 12px !important;
+  font-weight: 500 !important;
+  color: var(--ni-muted) !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list--background {
+  background: transparent !important;
+  box-shadow: none !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list-item {
+  min-height: 28px !important;
+  margin: 1px 6px !important;
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+  border: 0 !important;
+  border-radius: 4px !important;
+  background: transparent !important;
+  box-shadow: none !important;
+  color: var(--ni-text) !important;
+  transition: none !important;
+}
+#layouts .sy__file.file-tree.dockPanel [data-type="navigation-root"] {
+  margin-top: 6px !important;
+  margin-bottom: 3px !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list-item:hover {
+  background: var(--ni-hover) !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list-item--focus {
+  background: var(--ni-selected) !important;
+  color: var(--ni-text) !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list-item__text {
+  font-size: 14px !important;
+  line-height: 28px !important;
+  font-weight: 400 !important;
+  color: inherit !important;
+  text-shadow: none !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list-item--focus > .b3-list-item__text {
+  font-weight: 600 !important;
+}
+#layouts .sy__file.file-tree.dockPanel :is(.b3-list-item__toggle, .b3-list-item__arrow, .b3-list-item__graphic, .b3-list-item__action, .block__icon) {
+  color: var(--ni-muted) !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list-item__action {
+  opacity: 0 !important;
+  border-radius: 3px !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list-item:is(:hover, :focus-within) > .b3-list-item__action {
+  opacity: 1 !important;
+}
+#layouts .sy__file.file-tree.dockPanel .b3-list-item__action:hover {
+  background: var(--ni-selected) !important;
+  color: var(--ni-text) !important;
+}
+#layouts .sy__file.file-tree.dockPanel .counter {
+  background: transparent !important;
+  color: var(--ni-muted) !important;
+  box-shadow: none !important;
+  font-size: 11px !important;
+}
+#layouts .sy__file.file-tree.dockPanel :focus-visible {
+  outline: 2px solid var(--b3-theme-primary) !important;
+  outline-offset: -2px;
+}

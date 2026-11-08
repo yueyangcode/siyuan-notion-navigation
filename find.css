@@ -1,0 +1,33 @@
+html[data-theme-mode="dark"] .ni-find { --nf-bg:#202020; --nf-line:#41464c; --nf-focus:#485761; --nf-text:#dededb; --nf-muted:#979792; --nf-hover:#303030; }
+html[data-theme-mode="light"] .ni-find { --nf-bg:#fff; --nf-line:#d7d7d4; --nf-focus:#b2c2ce; --nf-text:#37352f; --nf-muted:#787774; --nf-hover:#f2f2ef; }
+.ni-find:not(.ni-find-expanded), .ni-find:not(.ni-find-expanded) > .b3-dialog { pointer-events:none; }
+.ni-find:not(.ni-find-expanded) .b3-dialog__scrim { background:transparent!important; pointer-events:none; backdrop-filter:none!important; }
+.ni-find:not(.ni-find-expanded) .b3-dialog__container {
+  position:fixed!important; top:var(--ni-find-top)!important; right:var(--ni-find-right)!important; left:auto!important; bottom:auto!important;
+  transform:none!important; width:min(284px, var(--ni-find-width), calc(100vw - 32px))!important; height:auto!important; min-height:42px!important; max-height:calc(100vh - 32px);
+  margin:0!important; padding:0!important; border:1px solid var(--nf-line)!important; border-radius:13px!important; background:var(--nf-bg)!important;
+  box-shadow:0 3px 12px #00000018!important; pointer-events:auto; overflow:hidden;
+}
+.ni-find:not(.ni-find-expanded) .b3-dialog__container:focus-within { border-color:var(--nf-focus)!important; box-shadow:0 0 0 1px var(--nf-focus)!important; }
+.ni-find:not(.ni-find-expanded) .b3-dialog__body > .fn__flex-column { background:transparent!important; height:auto!important; border-radius:0!important; }
+.ni-find:not(.ni-find-expanded) .b3-dialog__body > .fn__flex-column > :not(.search__header:has(#searchInput)):not(.ni-find-tools) { display:none!important; }
+.ni-find:not(.ni-find-expanded) .search__header:has(#searchInput) { display:flex!important; align-items:center; order:1; padding:0 8px 0 10px!important; margin:0!important; min-height:42px; background:transparent!important; border:0!important; border-radius:0!important; box-shadow:none!important; }
+.ni-find:not(.ni-find-expanded) .search__header:has(#searchInput) > .fn__flex-1 { min-width:0; }
+.ni-find:not(.ni-find-expanded) #searchInput { display:block; box-sizing:border-box; width:100%; min-height:40px!important; height:40px!important; max-height:40px!important; padding:10px 0!important; margin:0!important; resize:none; font:13px/20px var(--b3-font-family)!important; border:0!important; border-radius:0!important; outline:none!important; box-shadow:none!important; background:transparent!important; color:var(--nf-text)!important; }
+.ni-find:not(.ni-find-expanded) #searchInput::placeholder { color:var(--nf-muted); text-align:left!important; opacity:1; font-size:13px!important; }
+.ni-find:not(.ni-find-expanded) #searchInput { text-align:left!important; }
+/* Savor reserves 60 px for its search icon; the compact panel has no icon. */
+.ni-find.b3-dialog--open[data-key="dialog-search"]:not(.ni-find-expanded) .b3-dialog__container .fn__flex-column .b3-form__icon.search__header #searchInput { padding:10px 0!important; }
+.ni-find:not(.ni-find-expanded) .search__header:has(#searchInput) > .block__icons,
+.ni-find:not(.ni-find-expanded) #searchHistoryBtn,
+.ni-find:not(.ni-find-expanded) .search__header:has(#searchInput) .b3-form__icon-clear { display:none!important; }
+.ni-find .ni-find-close { flex:none; width:28px; height:28px; padding:0; border:0; border-radius:4px; font:20px/28px var(--b3-font-family); color:var(--nf-muted); background:transparent; cursor:pointer; }
+.ni-find .ni-find-close:hover { background:var(--nf-hover); color:var(--nf-text); }
+.ni-find .ni-find-tools { display:flex; flex-wrap:wrap; order:2; gap:3px; align-items:center; padding:3px 8px 8px 10px; color:var(--nf-muted); font:12px/22px var(--b3-font-family); }
+.ni-find:not(.ni-find-has-query):not(.ni-find-expanded) .ni-find-tools { display:none; }
+.ni-find .ni-find-tools [role="status"] { flex:1; min-width:65px; }
+.ni-find .ni-find-tools button { border:0; border-radius:4px; padding:2px 6px; background:transparent; color:var(--nf-muted); font:12px/22px var(--b3-font-family); cursor:pointer; white-space:nowrap; }
+.ni-find .ni-find-tools button:hover:not(:disabled) { background:var(--nf-hover); color:var(--nf-text); }
+.ni-find .ni-find-tools button:disabled { opacity:.35; cursor:default; }
+.ni-find button:focus-visible { outline:2px solid var(--nf-focus); outline-offset:-2px; }
+.layout__center .ni-find-current { outline:1px solid #b59b55; outline-offset:2px; background-color:#b59b551c!important; }
