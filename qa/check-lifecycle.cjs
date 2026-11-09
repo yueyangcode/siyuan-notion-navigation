@@ -31,12 +31,12 @@ vm.runInNewContext(fs.readFileSync(require('node:path').join(__dirname,'../index
 async function pathTests(){
  for (let i=0;i<100;i++) {
   const p=new context.module.exports();p.name='siyuan-notion-navigation';
-  await p.onload();assert.equal(nodes.size,3);assert.equal(events.size,2);assert.equal(observers.size,1);
-  await p.updatePreference('tree',false);assert.equal(nodes.size,2);assert.equal(events.size,2);
+  await p.onload();assert.equal(nodes.size,3);assert.equal(events.size,5);assert.equal(observers.size,1);
+  await p.updatePreference('tree',false);assert.equal(nodes.size,2);assert.equal(events.size,5);
   await p.updatePreference('navigation',false);assert.equal(nodes.size,1);assert.equal(events.size,2);
-  await p.updatePreference('navigation',true);assert.equal(nodes.size,2);assert.equal(events.size,2);
-  await p.updatePreference('search',false);assert.equal(observers.size,0);assert.equal(events.size,0);
-  await p.updatePreference('search',true);assert.equal(observers.size,1);assert.equal(events.size,2);
+  await p.updatePreference('navigation',true);assert.equal(nodes.size,2);assert.equal(events.size,5);
+  await p.updatePreference('search',false);assert.equal(observers.size,0);assert.equal(events.size,3);
+  await p.updatePreference('search',true);assert.equal(observers.size,1);assert.equal(events.size,5);
   p.onunload();assert.equal(nodes.size,0);assert.equal(events.size,0);assert.equal(observers.size,0);
  }
  const disabled=new context.module.exports();disabled.saved={navigation:false,tree:false,search:false};await disabled.onload();assert.equal(nodes.size,0);assert.equal(events.size,0);disabled.onunload();

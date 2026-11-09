@@ -8,6 +8,8 @@ module.exports = class NotionNavigation extends Plugin {
   async onload() {
     this.alive = true;
     this.styles = new Map();
+    this.paths = new Map();
+    this.onPathEditor = event => this.attachPath(event.detail.protyle);
     this.preferences = { navigation: true, tree: true, search: true };
     try {
       const saved = await this.loadData('settings.json');
@@ -34,8 +36,59 @@ module.exports = class NotionNavigation extends Plugin {
         this.styles.delete(key);
       }
     }
+    if (this.preferences.navigation) this.startPaths();
+    else this.stopPaths();
     if (this.preferences.search) this.startSearch();
     else this.stopSearch();
+  }
+
+  onLayoutReady() {
+    if (this.preferences.navigation) for (const editor of getAllEditor()) this.attachPath(editor.protyle);
+  }
+
+  startPaths() {
+    if (this.pathActive) return;
+    this.pathActive = true;
+    for (const name of ['loaded-protyle-static', 'loaded-protyle-dynamic', 'switch-protyle']) this.eventBus.on(name, this.onPathEditor);
+    for (const editor of getAllEditor()) this.attachPath(editor.protyle);
+  }
+
+  stopPaths() {
+    if (this.pathActive) {
+      for (const name of ['loaded-protyle-static', 'loaded-protyle-dynamic', 'switch-protyle']) this.eventBus.off(name, this.onPathEditor);
+      this.pathActive = false;
+    }
+    for (const state of this.paths.values()) { state.abort.abort(); state.nav.remove(); }
+    this.paths.clear();
+  }
+
+  async attachPath(protyle) {
+    const bar = protyle?.element?.closest('.layout__center') && protyle.element.querySelector(':scope > .protyle-breadcrumb > .protyle-breadcrumb__bar');
+    const id = protyle?.block?.rootID;
+    if (!bar || !/^\d{14}-[a-z0-9]{7}$/.test(id || '')) return;
+    const previous = this.paths.get(bar);
+    if (previous?.id === id && previous.nav.isConnected) return;
+    if (previous) { previous.abort.abort(); previous.nav.remove(); this.paths.delete(bar); }
+    const abort = new AbortController();
+    const nav = document.createElement('nav'); nav.className = 'nn-document-path'; nav.setAttribute('aria-label', '文档层级');
+    this.paths.set(bar, { id, abort, nav });
+    try {
+      const info = await this.api('block/getBlockInfo', { id }, abort.signal);
+      const ids = info.path.replace(/\.sy$/, '').split('/').filter(Boolean);
+      if (ids.at(-1) !== id || ids.some(item => !/^\d{14}-[a-z0-9]{7}$/.test(item))) return;
+      const docs = await Promise.all(ids.map(async item => ({ id: item, name: (await this.api('block/getDocInfo', { id: item }, abort.signal)).name || '未命名' })));
+      if (abort.signal.aborted || !this.pathActive || this.paths.get(bar)?.id !== id || !bar.isConnected) return;
+      const notebook = window.siyuan.notebooks.find(item => item.id === info.box);
+      if (notebook) { const label = document.createElement('span'); label.className = 'nn-notebook'; label.textContent = notebook.name; nav.append(label); }
+      docs.forEach((doc, index) => {
+        if (index || notebook) { const slash = document.createElement('span'); slash.textContent = '/'; slash.className = 'nn-path-separator'; slash.setAttribute('aria-hidden', 'true'); nav.append(slash); }
+        const button = document.createElement('button'); button.type = 'button'; button.textContent = doc.name; button.title = doc.name;
+        if (index === docs.length - 1) button.setAttribute('aria-current', 'page');
+        button.addEventListener('click', async event => { event.stopPropagation(); try { await openTab({ app: this.app, doc: { id: doc.id } }); } catch { showMessage('无法打开该页面，请确认文档仍然存在。', 4000, 'error'); } });
+        nav.append(button);
+      });
+      bar.prepend(nav);
+    } catch (error) { if (error.name !== 'AbortError') nav.remove(); }
   }
 
   startSearch() {
@@ -377,6 +430,7 @@ module.exports = class NotionNavigation extends Plugin {
   onunload() {
     this.alive = false;
     this.stopSearch();
+    this.stopPaths();
     this.setting?.close();
     for (const style of this.styles.values()) style.remove();
     this.styles.clear();

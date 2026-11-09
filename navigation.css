@@ -162,6 +162,13 @@ body:not(.body--toolbar-hide) .layout__center .layout-tab-bar {
   font: 13px/24px var(--b3-font-family);
   color: var(--nn-text);
 }
+.layout__center .protyle-breadcrumb__bar:has(.nn-document-path) > .protyle-breadcrumb__item:first-of-type::after { display: none; }
+.layout__center .nn-document-path { display: flex; align-items: center; min-width: 0; max-width: min(640px, 65vw); overflow-x: auto; scrollbar-width: none; }
+.layout__center .nn-document-path button { flex: none; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 0; border-radius: 4px; background: transparent; color: var(--nn-text); padding: 3px 5px; font: 13px var(--b3-font-family); cursor: pointer; }
+.layout__center .nn-document-path button:hover,.layout__center .nn-document-path button:focus-visible { background: var(--nn-hover); }
+.layout__center .nn-document-path button[aria-current="page"] { font-weight: 600; }
+.layout__center .nn-path-separator { color: var(--nn-separator); padding: 0 3px; }
+.layout__center .nn-notebook { color: var(--nn-muted); font: 13px var(--b3-font-family); white-space: nowrap; padding: 0 5px; }
 body.body--toolbar-hide .layout__center .layout__wnd--center > .fn__flex > .layout-tab-bar {
   height: 42px !important;
   min-height: 42px !important;
