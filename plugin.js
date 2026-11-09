@@ -277,6 +277,11 @@ module.exports = class NotionNavigation extends Plugin {
       const state = { root, rootID, input, dialog, tools, close, container, matches: [], index: -1, version: 0, expanded: false, placeholder: input.placeholder, modal: container.getAttribute('aria-modal') };
       state.position = () => {
         const editor = getAllEditor().find(item => item.protyle.block?.rootID === state.rootID && item.protyle.element.closest('.layout__center') && item.protyle.element.getBoundingClientRect().width)?.protyle.element;
+        if (editor !== state.positionTarget) {
+          state.resizeObserver?.disconnect();
+          state.positionTarget = editor;
+          if (editor) state.resizeObserver?.observe(editor);
+        }
         const rect = editor?.getBoundingClientRect();
         const bar = editor?.querySelector('.protyle-breadcrumb')?.getBoundingClientRect();
         root.style.setProperty('--ni-find-top', `${Math.max(12, Math.min(bar?.bottom || 100, innerHeight - 160)) + 10}px`);
@@ -306,6 +311,7 @@ module.exports = class NotionNavigation extends Plugin {
       tools.addEventListener('click', state.click);
       root.addEventListener('keydown', state.key, true);
       window.addEventListener('resize', state.position);
+      state.resizeObserver = new ResizeObserver(state.position);
       input.closest('.search__header').appendChild(close);
       root.querySelector('.b3-dialog__body > .fn__flex-column').appendChild(tools);
       root.classList.add('ni-find'); input.placeholder = '查找或替换…'; container.setAttribute('aria-modal', 'false');
@@ -353,6 +359,7 @@ module.exports = class NotionNavigation extends Plugin {
     state.version++;
     state.mark?.classList.remove('ni-find-current');
     window.removeEventListener('resize', state.position);
+    state.resizeObserver?.disconnect();
     state.root.removeEventListener('keydown', state.key, true);
     state.close.removeEventListener('click', state.closeClick); state.close.remove();
     state.tools.removeEventListener('click', state.click); state.tools.remove();

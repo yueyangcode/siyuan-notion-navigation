@@ -2,7 +2,7 @@
   "name": "siyuan-notion-navigation",
   "author": "yueyangcode",
   "url": "https://github.com/yueyangcode/siyuan-notion-navigation",
-  "version": "0.4.7",
+  "version": "0.4.8",
   "minAppVersion": "3.8.7",
   "backends": [
     "all"
