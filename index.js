@@ -58,7 +58,7 @@ module.exports = class NotionNavigation extends Plugin {
       for (const name of ['loaded-protyle-static', 'loaded-protyle-dynamic', 'switch-protyle']) this.eventBus.off(name, this.onPathEditor);
       this.pathActive = false;
     }
-    for (const state of this.paths.values()) { state.abort.abort(); state.nav.remove(); }
+    for (const state of this.paths.values()) { state.abort.abort(); state.observer.disconnect(); state.nav.remove(); }
     this.paths.clear();
   }
 
@@ -67,15 +67,22 @@ module.exports = class NotionNavigation extends Plugin {
     const id = protyle?.block?.rootID;
     if (!bar || !/^\d{14}-[a-z0-9]{7}$/.test(id || '')) return;
     const previous = this.paths.get(bar);
-    if (previous?.id === id && previous.nav.isConnected) return;
-    if (previous) { previous.abort.abort(); previous.nav.remove(); this.paths.delete(bar); }
+    if (previous?.id === id) return;
+    if (previous) { previous.abort.abort(); previous.observer.disconnect(); previous.nav.remove(); this.paths.delete(bar); }
     const abort = new AbortController();
     const nav = document.createElement('nav'); nav.className = 'nn-document-path'; nav.setAttribute('aria-label', '文档层级');
-    this.paths.set(bar, { id, abort, nav });
+    const state = { id, abort, nav, ready: false };
+    state.observer = new MutationObserver(() => {
+      if (!state.ready || !bar.isConnected || !this.pathActive) return;
+      if (protyle.block?.rootID !== id) { this.attachPath(protyle); return; }
+      if (!nav.isConnected) bar.prepend(nav);
+    });
+    state.observer.observe(bar, { childList: true });
+    this.paths.set(bar, state);
     try {
       const info = await this.api('block/getBlockInfo', { id }, abort.signal);
       const ids = info.path.replace(/\.sy$/, '').split('/').filter(Boolean);
-      if (ids.at(-1) !== id || ids.some(item => !/^\d{14}-[a-z0-9]{7}$/.test(item))) return;
+      if (ids.at(-1) !== id || ids.some(item => !/^\d{14}-[a-z0-9]{7}$/.test(item))) throw Error('无效文档路径');
       const docs = await Promise.all(ids.map(async item => ({ id: item, name: (await this.api('block/getDocInfo', { id: item }, abort.signal)).name || '未命名' })));
       if (abort.signal.aborted || !this.pathActive || this.paths.get(bar)?.id !== id || !bar.isConnected) return;
       const notebook = window.siyuan.notebooks.find(item => item.id === info.box);
@@ -87,8 +94,9 @@ module.exports = class NotionNavigation extends Plugin {
         button.addEventListener('click', async event => { event.stopPropagation(); try { await openTab({ app: this.app, doc: { id: doc.id } }); } catch { showMessage('无法打开该页面，请确认文档仍然存在。', 4000, 'error'); } });
         nav.append(button);
       });
+      state.ready = true;
       bar.prepend(nav);
-    } catch (error) { if (error.name !== 'AbortError') nav.remove(); }
+    } catch (error) { if (error.name !== 'AbortError') { state.observer.disconnect(); this.paths.delete(bar); nav.remove(); } }
   }
 
   startSearch() {
