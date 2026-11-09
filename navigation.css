@@ -163,6 +163,8 @@ body:not(.body--toolbar-hide) .layout__center .layout-tab-bar {
   color: var(--nn-text);
 }
 .layout__center .protyle-breadcrumb__bar:has(.nn-document-path) > .protyle-breadcrumb__item:first-of-type::after { display: none; }
+/* Keep SiYuan's focus and document controls outside the bar; avoid a second block trail. */
+.layout__center .protyle-breadcrumb__bar:has(.nn-document-path) > :not(.nn-document-path) { display: none !important; }
 .layout__center .nn-document-path { display: flex; align-items: center; min-width: 0; max-width: min(640px, 65vw); overflow-x: auto; scrollbar-width: none; }
 .layout__center .nn-document-path button { flex: none; max-width: 200px; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; border: 0; border-radius: 4px; background: transparent; color: var(--nn-text); padding: 3px 5px; font: 13px var(--b3-font-family); cursor: pointer; }
 .layout__center .nn-document-path button:hover,.layout__center .nn-document-path button:focus-visible { background: var(--nn-hover); }
