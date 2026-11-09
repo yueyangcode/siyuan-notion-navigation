@@ -63,6 +63,7 @@ body:not(.body--toolbar-hide) .layout__center .layout-tab-bar {
   box-shadow: none !important;
   color: var(--nn-text) !important;
   transition: none !important;
+  font-style: normal !important;
 }
 .layout__center .layout-tab-bar > .item:not(.item--readonly)::before,
 .layout__center .layout-tab-bar > .item:not(.item--readonly)::after {
@@ -83,6 +84,7 @@ body:not(.body--toolbar-hide) .layout__center .layout-tab-bar {
   min-width: 0;
   text-align: left !important;
   font-family: var(--b3-font-family) !important;
+  font-style: normal !important;
   font-size: 14px !important;
   line-height: 20px !important;
   color: inherit !important;
@@ -141,6 +143,24 @@ body:not(.body--toolbar-hide) .layout__center .layout-tab-bar {
 }
 .layout__center .protyle > .protyle-breadcrumb .protyle-breadcrumb__item:hover {
   background: var(--nn-hover) !important;
+}
+/* Expand the native document button; its click/menu handlers remain SiYuan's. */
+.layout__center .protyle-breadcrumb__bar {
+  min-width: 0;
+}
+.layout__center .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child[aria-label] {
+  flex-shrink: 1;
+  min-width: 24px;
+  max-width: min(520px, 55vw);
+}
+.layout__center .protyle-breadcrumb__bar > .protyle-breadcrumb__item:first-child[aria-label]::after {
+  content: attr(aria-label);
+  margin-left: 6px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  font: 13px/24px var(--b3-font-family);
+  color: var(--nn-text);
 }
 body.body--toolbar-hide .layout__center .layout__wnd--center > .fn__flex > .layout-tab-bar {
   height: 42px !important;

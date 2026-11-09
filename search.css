@@ -9,6 +9,10 @@ html[data-theme-mode="light"] [data-key="dialog-globalsearch"] {
   --ni-text: #37352f; --ni-muted: #787774; --ni-mark: #f4e8c4; --ni-mark-text: #655029;
 }
 [data-key="dialog-globalsearch"] .b3-dialog__container {
+  position: relative !important;
+  left: auto !important;
+  top: auto !important;
+  margin: auto !important;
   width: min(1008px, calc(100vw - 32px)) !important;
   height: min(700px, calc(100vh - 48px)) !important;
   max-width: calc(100vw - 32px);
