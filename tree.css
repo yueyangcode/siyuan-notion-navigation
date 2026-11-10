@@ -116,10 +116,6 @@ html[data-theme-mode="light"] .sy__outline {
 #layouts .sy__outline.file-tree.dockPanel .b3-list--background {
   background: transparent !important;
 }
-#layouts .sy__outline.file-tree.dockPanel > .fn__flex-1 {
-  /* Neutralize ClearType's colored subpixel fringes on the compact headings. */
-  filter: grayscale(1);
-}
 #layouts .sy__outline.file-tree.dockPanel .b3-list-item {
   min-height: 28px !important;
   margin: 1px 6px !important;
@@ -154,6 +150,10 @@ html[data-theme-mode="light"] .sy__outline {
   font-weight: 500 !important;
 }
 #layouts .sy__outline.file-tree.dockPanel li[data-treetype="outline"] > .b3-list-item__graphic {
+  display: none !important;
+}
+#layouts .sy__outline.file-tree.dockPanel li[data-treetype="outline"] > .b3-list-item__toggle::after {
+  content: none !important;
   display: none !important;
 }
 #layouts .sy__outline.file-tree.dockPanel :is(.b3-list-item__toggle, .b3-list-item__arrow, .b3-list-item__action, .block__icon, .b3-list-item__graphic) {
