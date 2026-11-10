@@ -2,7 +2,7 @@
   "name": "siyuan-notion-navigation",
   "author": "yueyangcode",
   "url": "https://github.com/yueyangcode/siyuan-notion-navigation",
-  "version": "0.4.9",
+  "version": "0.4.10",
   "minAppVersion": "3.8.7",
   "backends": [
     "all"
@@ -18,7 +18,7 @@
     "en-US": "Notion-style Interface"
   },
   "description": {
-    "default": "简洁的导航、文档树和搜索窗口，按区域独立开启，保留原生操作。"
+    "default": "简洁的导航、文档树、大纲和搜索窗口，按区域独立开启，保留原生操作。"
   },
   "readme": {
     "default": "README.md"

@@ -403,7 +403,7 @@ module.exports = class NotionNavigation extends Plugin {
     <h2>让常用界面更简洁</h2>
     <p>按区域独立开启。关闭某项后，会恢复当前主题和代码片段提供的外观。</p>
     <label><span><strong>导航栏与路径</strong><small>简洁标签页；保留原生历史按钮、文档路径和块级面包屑。</small></span><input type="checkbox" role="switch" data-option="navigation" aria-label="导航栏与路径"></label>
-    <label><span><strong>左侧文档树</strong><small>柔和的选中底色，清楚的层级，悬停时显示操作按钮。</small></span><input type="checkbox" role="switch" data-option="tree" aria-label="左侧文档树"></label>
+    <label><span><strong>文档树与大纲</strong><small>统一行高和层级缩进；大纲标题改为纯文字，操作按钮在悬停时出现。</small></span><input type="checkbox" role="switch" data-option="tree" aria-label="文档树与大纲"></label>
     <label><span><strong>搜索与页内查找</strong><small>全局搜索使用页面列表与卡片预览，页内查找使用右上角小浮层。</small></span><input type="checkbox" role="switch" data-option="search" aria-label="搜索与页内查找"></label>
     <footer>更改自动保存并立即生效。Ctrl+P 全局搜索；Ctrl+F 页内查找。</footer><div role="status" aria-live="polite"></div>`;
     const inputs = [...root.querySelectorAll('input')];
