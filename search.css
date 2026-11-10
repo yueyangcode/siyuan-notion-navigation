@@ -44,22 +44,28 @@ html[data-theme-mode="light"] [data-key="dialog-globalsearch"] {
   box-shadow: none !important;
   border: 0 !important;
 }
-[data-key="dialog-globalsearch"] .search__header:has(#searchInput) {
-  min-height: 54px;
-  padding: 0 14px !important;
+[data-key="dialog-globalsearch"].ni-search-ready .b3-dialog__container .fn__flex-column .b3-form__icon.search__header:has(#searchInput) {
+  min-height: 48px !important;
+  margin: 0 !important;
+  padding: 0 18px !important;
+  border-radius: 0 !important;
+  box-shadow: none !important;
 }
-[data-key="dialog-globalsearch"] #searchInput {
+[data-key="dialog-globalsearch"].ni-search-ready .b3-dialog__container .fn__flex-column .b3-form__icon.search__header #searchInput {
   font-family: var(--b3-font-family) !important;
-  font-size: 17px !important;
-  line-height: 26px !important;
-  min-height: 54px !important;
-  padding: 14px 32px 14px 36px !important;
+  font-size: 16px !important;
+  line-height: 24px !important;
+  height: 48px !important;
+  min-height: 48px !important;
+  padding: 12px 32px 12px 36px !important;
   background: transparent !important;
   color: var(--ni-text) !important;
   border-radius: 0 !important;
   box-shadow: none !important;
 }
-[data-key="dialog-globalsearch"] #searchInput::placeholder { color: var(--ni-muted); font-size: 17px; }
+[data-key="dialog-globalsearch"] #searchInput::placeholder { color: var(--ni-muted); font-size: 16px; }
+[data-key="dialog-globalsearch"].ni-search-ready .search__header:has(#searchInput) #searchHistoryBtn { top: 50% !important; transform: translateY(-50%); }
+[data-key="dialog-globalsearch"].ni-search-ready .search__header:has(#searchInput) .b3-form__icon-clear { height: 48px !important; }
 [data-key="dialog-globalsearch"] #searchHistoryBtn .search__arrowdown { display: none; }
 [data-key="dialog-globalsearch"].ni-search-ready:not(.ni-search-advanced) .search__header:has(#searchInput) > .block__icons,
 [data-key="dialog-globalsearch"].ni-search-ready:not(.ni-search-advanced) .b3-dialog__body > .fn__flex-column > .block__icons,
