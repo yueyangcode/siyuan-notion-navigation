@@ -114,6 +114,10 @@ html[data-theme-mode="light"] .sy__outline {
 #layouts .sy__outline.file-tree.dockPanel .b3-list--background {
   background: transparent !important;
 }
+#layouts .sy__outline.file-tree.dockPanel > .fn__flex-1 {
+  /* Neutralize ClearType's colored subpixel fringes on the compact headings. */
+  filter: grayscale(1);
+}
 #layouts .sy__outline.file-tree.dockPanel .b3-list-item {
   min-height: 28px !important;
   margin: 1px 6px !important;
