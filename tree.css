@@ -89,10 +89,12 @@ html[data-theme-mode="light"] .sy__file {
 html[data-theme-mode="dark"] .sy__outline {
   --ni-surface: #202020; --ni-hover: #292929; --ni-selected: #303030;
   --ni-text: #ddddda; --ni-muted: #999995;
+  --ni-outline-text: #b8b8b8; --ni-outline-active: #d8d8d8;
 }
 html[data-theme-mode="light"] .sy__outline {
   --ni-surface: #f7f7f5; --ni-hover: #efefed; --ni-selected: #e7e7e4;
   --ni-text: #37352f; --ni-muted: #787774;
+  --ni-outline-text: #575650; --ni-outline-active: #37352f;
 }
 #layouts .sy__outline.file-tree.dockPanel {
   background: var(--ni-surface) !important;
@@ -138,14 +140,18 @@ html[data-theme-mode="light"] .sy__outline {
   color: var(--ni-text) !important;
 }
 #layouts .sy__outline.file-tree.dockPanel .b3-list-item__text {
+  font-family: "Microsoft YaHei UI", system-ui, sans-serif !important;
   font-size: 13px !important;
   line-height: 28px !important;
   font-weight: 400 !important;
-  color: inherit !important;
+  color: var(--ni-outline-text) !important;
   text-shadow: none !important;
 }
+#layouts .sy__outline.file-tree.dockPanel .b3-list-item--focus > .b3-list-item__text {
+  color: var(--ni-outline-active) !important;
+}
 #layouts .sy__outline.file-tree.dockPanel li[data-subtype="h1"] > .b3-list-item__text {
-  font-weight: 550 !important;
+  font-weight: 500 !important;
 }
 #layouts .sy__outline.file-tree.dockPanel li[data-treetype="outline"] > .b3-list-item__graphic {
   display: none !important;
